@@ -1,0 +1,217 @@
+
+    <div class="container" *ngIf = "display == 'form' ">
+        <h2 class="heding text-center" title="hello">Registration Form</h2>
+        <form #regForm = "ngForm"class="reg container" >
+            <!--First Group-->
+            <div class="container" id="grp1" *ngIf = "show == 'grp1'" >
+                <div class="row">
+                    <div class="sub-grp col-md-6">
+                        <span id= "fnstar" class="star">*</span>
+                        <input type="text" name="fname" #fname = "ngModel"  [ngModel]  required minlength="3" placeholder="First Name"id="firstname" class="form-control ip left">
+                       
+                      <div *ngIf = " fname.touched && fname.errors">
+                          <p *ngIf = "fname.errors.required " class="errormsg">Please Enter your First Name</p>
+                          <p *ngIf = "fname.errors.minlength" class="errormsg">First Name is minimum 3 characters</p>
+                      </div>
+                    </div>
+                    
+                    <div class="sub-grp col-md-6">
+                        <span id= "lnstar" class="star">*</span>
+                        <input type="text" required minlength="3"  name="lname" [ngModel] #lname = "ngModel"  id="lastname" placeholder="Last Name" class="form-control ip  right">
+                        <div *ngIf = " lname.touched && lname.errors">
+                            <p *ngIf = "lname.errors.required " class="errormsg">Please Enter your Last Name</p>
+                            <p *ngIf = "lname.errors.minlength" class="errormsg">Last Name is minimum 3 characters</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mailrow">
+                    <div class="sub-grp col-md-12">
+                        <span id= "mailstar" class="star">*</span>
+                        <input type="text"  name="email"   [ngModel] #email = "ngModel" required  placeholder="Enter Your Email" id="email" class="form-control ip" pattern="[a-zA-Z0-9\.-]+@[a-zA-Z0-9-]+\.[a-z]{2,4}"><br>
+                        <div *ngIf = " email.touched && email.errors">
+                            <p *ngIf = "email.errors.required" class="errormsg">Please Enter your Mail Id</p>
+                            <p *ngIf = "email.errors.pattern" class="errormsg">Enter valid Mail Id</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="sub-grp col-md-6 pass">
+                        <span id= "p1star" class="star">*</span>
+                        <input type="password" name="pwd1" [(ngModel)] = "password" #pwd1 = "ngModel" required  placeholder="Password "id="password" class="form-control ip left" minlength="8">
+                     
+                        <div *ngIf = " pwd1.touched && pwd1.errors">
+                            <p *ngIf = "pwd1.errors.required " class="errormsg">Please Enter Password</p>
+                            <p *ngIf = "pwd1.errors.minlength" class="errormsg">passwordis minimum 8 characters</p>
+                        </div>
+                    </div>
+                    <div class="sub-grp col-md-6 pass">
+                        <span id= "p2star" class="star">*</span>
+                        <input type="password" name="pwd2" id="pwd2"  [(ngModel)] = "password2" #pwd2 = "ngModel" required  ngValidateEqual = "pwd1" placeholder="Confirm Password" class="form-control ip  right">
+                        
+                        <div *ngIf = " pwd2.touched && pwd2.errors">
+                            <p *ngIf = "pwd2.errors.required " class="errormsg">Please Confirm your password</p>                             
+                        </div>
+                        <p *ngIf = "pwd2.touched && pwd1.value != pwd2.value"class="errormsg">passwords didnot match</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="sub-grp col-md-6 mob">
+                        <span id= "m1star" class="star">*</span>
+                        <input type="tel" name="mobile" placeholder="Mobile Number" id="mobilenumber" [ngModel]  #mobile = "ngModel" required maxlength="10"minlength="10" class="form-control ip left"><br>
+                        <div *ngIf = " mobile.touched && mobile.errors">
+                            <p *ngIf = "mobile.errors.required" class="errormsg">Please Enter your Mobile Number</p>
+                            <p *ngIf = "mobile.errors.minlength" class="errormsg">Enter valid Mobile Number</p>
+                        </div>
+                    </div>
+                    <div class="sub-grp col-md-6 mob">
+                        <br>                       
+                        <input type="tel" name="mobile" placeholder="Alternate Number" id="mobile2" class="form-control ip right"  maxlength="10"minlength="10"><br>
+                    </div>
+                </div>
+                <div class="row mx-auto"  id="gender">
+                   
+                    <div class="col-md-3 "><span id= "genstar" class="star"></span>    Gender</div>
+                    <div class="col-md-3">
+                        <input type="radio" name="gender" class="gender" #gender ="ngModel" [ngModel] value="male" required><span class="gen radio-text">Male</span>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="radio" name="gender" class="gender" #gender ="ngModel"  [ngModel]  required value="female" ><span class="gen radio-text"> Female</span>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="radio" name="gender" class="gender" #gender ="ngModel"  [ngModel]  required value="other"> <span class="gen radio-text"> other</span><br>
+                    </div>
+                    <div *ngIf = "gender.touched && gender.invalid">
+                        <p class="errormsg">Please Select gender</p>
+                      
+                    </div>
+                </div>
+                  <div class="row bottom">
+                    <div class="col-md-12 d-flex justify-content-between">
+                        <a href="" id="signin" class="btn btn-primary">Sign in </a>
+                        <button type="button" class="btn btn-primary" id="next" (click)= "showGrp2();save(regForm);genCaptcha()"
+                        [disabled] = "pwd1.invalid|| fname.invalid  ||lname.invalid  || email.invalid ||
+                        mobile.invalid ||gender.invalid || pwd1.value != pwd2.value">
+                       Next</button>
+              
+                        <!--<button type="button" class="btn btn-primary" id="next" (click)= "showGrp2();save(regForm)"
+                         [disabled] = "regForm.controls.fname.invalid ||regForm.controls.lname.invalid ||
+                         regForm.controls.email.invalid || regForm.controls.pwd1.invalid || 
+                         regForm.controls.pwd2.invalid || regForm.controls.gender.invalid || regForm.controls.mobile.invalid">Next</button>-->
+                    </div>
+                </div> 
+                  
+            </div>
+            <!--Second Group 
+             <div class="container" id="grp2" *ngIf = "show == 'grp2'">-->
+            <div class="container" id="grp2" *ngIf = "show == 'grp2'">
+                <div class="row">
+                    <div class="col-md-6 sub-grp" id="address1">
+                        <span id= "a1star" class="star">*</span>
+                        <input type="text" name="caddress" #address ="ngModel" [ngModel] required  placeholder="Current Address "id="address" class="form-control ip left">
+                        <div *ngIf = "address.touched && address.invalid">
+                           <p class="errormsg">Please Enter Your Address</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 sub-grp">
+                        <span id= "countrystar" class="star">*</span>
+                        <select name="country-list" #country= "ngModel" [(ngModel)] = "selectedCountryCode1"  required class="form-select ip country" id="country1">
+                            <option value="null" disabled>Select Country</option>
+                            <option *ngFor = "let c of countries" [ngValue] = " c.code"> {{c.name}}</option>
+                        </select>
+                        <div *ngIf = "country.touched && country.invalid">
+                            <p class="errormsg">Please Select Country</p>
+                         </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 sub-grp">
+                        <span id= "statestar" class="star">*</span>
+                        <select class="form-select ip" id="state1" #state= "ngModel" name = "state" [(ngModel)] = "selectedState1" required>
+                            <option value="null" disabled>Select State</option>
+                            <option *ngFor = "let state of states[selectedCountryCode1]"value={{state}}>{{state}}</option>
+                        </select>
+                        <div *ngIf = "state.touched && state.invalid">
+                            <p class="errormsg">Please Select State</p>
+                         </div>
+                       
+                    </div>
+                    <div class="col col-md-6 city1">
+                        <span id= "c1star" class="star">*</span>
+                        <input type="text" name="city1" placeholder="Current City" #city ="ngModel" [ngModel] id="cityname" required class="form-control ip right">
+                        <div *ngIf = "city.touched && city.invalid">
+                            <p class="errormsg">Please Enter Your City Name</p>
+                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 sub-grp optional" id="address2">
+                        <input type="text" name="paddress" placeholder="Permanent Address "id="addr2" class="form-control ip left">
+                    </div>
+                    <div class="col-md-6 sub-grp optional">
+                        <select name="country-list2" #country2= "ngModel" [(ngModel)] = "selectedCountryCode2" class="form-select ip country " id="country2">
+                            <option value="null">Select Permanent Country</option>      
+                            <option *ngFor = "let c of countries" [ngValue] = " c.code"> {{c.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 sub-grp optional">
+                        <select class="form-select ip"  #state2= "ngModel" name = "state2" [(ngModel)] = "selectedState2" id="state2">
+                            <option value="null" disabled>Select Permanent State</option>
+                            <option *ngFor = "let state of states[selectedCountryCode2]"value={{state}}>{{state}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 city2 optional">
+                        <input type="text" name="city2" placeholder="Permanent City "id="city2" class="form-control ip right">
+                    </div>
+                </div>
+                <div class="row captch-row">
+                    <div class=" col-md-6 captcha-res sub-grp">
+                        <span id="captcha-star" class="star">*</span> 
+                        <input type="number" name="result" id="result" #result = "ngModel" [(ngModel)] = "captchaResult" (change) ="validateCaptcha()" required class="form-control ip"  placeholder="Enter captcha Result" > <br>
+                        <div *ngIf = " result.touched && result.errors">
+                            <p *ngIf = "  result.touched && result.errors.required" class="errormsg">Please Enter Captcha Result</p>
+                        </div>
+                        <p *ngIf = " actualCaptchaResult != captchaResult" class="errormsg">Invalid Captcha</p>
+                    </div>
+                    <div class="col-md-6 captcha-expr sub-grp">
+                        <br>
+                        <input type="text" name="exprsn" id="exprsn" [(ngModel)] = "expr"class="optional captcha field ip form-control" readonly>
+                        <button id="refresh" class="captcha field" type="button" (click) ="genCaptcha()"><i class="fas fa-sync-alt refrsh"></i></button> 
+                    </div>                     
+                </div>                                     
+                <div class="row" id="subscribe">
+                    <div class="col-md-12 sub-grp">
+                         subscibe to news letter                     
+                         <input type="radio" id=" sub-news" value="y" checked name="subscription"> <span class="sub-textY">yes</span>
+                         <input type="radio" value="N" id="radio sub-news" name="subscription"> <span class="sub-textN"> No</span>
+                    </div>
+                </div>
+                <div class="row" id="last">
+                    <div class="col-md-12 d-flex justify-content-around">
+                        <button type="button" class="btn btn-primary" id="prev" (click) = "showGrp1()">Prev</button>
+                        <button type="submit" class="btn btn-primary" id="signup" (click)= "save(regForm);action()"
+                        [disabled] = "address.invalid || country.invalid ||state.invalid ||city.invalid
+                        ||result.invalid || actualCaptchaResult != captchaResult"
+                         routerLink = "['/welcome']" >Sign Up</button>
+                    </div>
+                </div>   
+            </div>
+        </form>
+        <div id="extra1"></div>
+    </div> 
+    <div id="extra1"></div>
+    <!--<router-outlet></router-outlet>-->
+
+    <div class="action" *ngIf = "display == 'welcome'">
+
+        <h1 mx-auto >welcome your data submitted</h1>
+
+
+    </div>
+    
+    
+ 
+
+
